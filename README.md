@@ -68,10 +68,6 @@ snakemake --cores 2
 | Read İstatistikleri | Python (analyze_reads.py) | `results/read_stats.csv` |
 | Görselleştirme | Python (visualize.py) | `results/qc_plots.png` |
 
-Snakemake pipeline akışını görselleştirmek için:
-
-snakemake --dag | dot -Tpng > workflow.png
-
 ## Pipeline Mimarisi
 ```
 barcode77.fastq (Ham Veri)
@@ -107,14 +103,6 @@ longread-qc-pipeline/
     └── nanoplot/
         └── NanoPlot-report.html   - QC raporu
 ```
-
----
-
-## Hesaplanan Metrikler
-
-- **Read Uzunluğu**: Her readın baz çifti (bp) cinsinden uzunluğu
-- **GC İçeriği**: G ve C bazlarının yüzdesi
-- **Ortalama Kalite**: Phred kalite skoru (Q20)
 
 ---
 
@@ -158,6 +146,7 @@ Sorularınız için her zaman ulaşabilirsiniz.
 Saygılarımla,
 
 Ceren Nizamoğlu
+---
 
 Bu pipeline tekrar üretilebilir olacak şekilde tasarlanmıştır.
 
