@@ -134,7 +134,6 @@ and calculates three metrics: GC content percentage, read length, and mean quali
 The results are saved in a structured table for further use.
 
 Output is saved in: `results/read_stats.csv`  
-Each row in this file represents one read, with the columns: `read_id`, `read_length`, `gc_content`, `mean_quality`
 
 ### Step 3: Visualization
 
