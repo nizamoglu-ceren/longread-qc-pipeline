@@ -34,6 +34,8 @@ IIIIIIIIIIII
 3. satır: ayırıcı satır  
 4. satır: kalite skorları (Phred)
 
+---
+
 ```bash
 # 1. Repoyu bilgisayarına indir
 git clone https://github.com/nizamoglu-ceren/longread-qc-pipeline.git
