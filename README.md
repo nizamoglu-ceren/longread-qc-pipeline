@@ -33,8 +33,10 @@ IIIIIIIIIIII
 2. satır: DNA dizisi  
 3. satır: ayırıcı satır  
 4. satır: kalite skorları (Phred)
-
+```
 ---
+
+## Kurulum
 
 ```bash
 # 1. Repoyu bilgisayarına indir
@@ -49,7 +51,7 @@ conda activate longreads
 ```
 
 `environment.yml` dosyası projenin ihtiyaç duyduğu tüm araç ve kütüphaneleri tanımlar. 
-```
+
 
 ## Kullanım
 
