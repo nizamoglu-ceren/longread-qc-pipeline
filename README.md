@@ -6,16 +6,32 @@ Oxford Nanopore teknolojisiyle üretilmiş long-read dizileme verilerinin kalite
 
 Bu pipeline her read için üç temel metrik hesaplar:
 
-| Metrik | Açıklama | Beklenen Aralık |
-|--------|----------|-----------------|
+| Metrik | Açıklama | 
+|--------|----------|
 | **Read Uzunluğu** | Okunan DNA parçasının baz çifti (bp) cinsinden uzunluğu 
 | **GC İçeriği (%)** | DNA dizisindeki G ve C bazlarının yüzdesi 
-| **Ortalama Kalite (Phred)** | Her bazın ne kadar güvenilir okunduğunun skoru. | Q20 üzeri kabul edilebilir. |
+| **Ortalama Kalite (Phred)** | Her bazın ne kadar güvenilir okunduğunun skoru. 
 
 ## Gereksinimler
 
 - [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
 - Git
+  
+## Girdi Veri Formatı
+
+Pipeline, long-read dizileme teknolojilerinden (örneğin Oxford Nanopore) üretilmiş FASTQ formatındaki ham dizileme verisini girdi olarak alır.
+
+FASTQ dosyası dört satırlık kayıt yapısına sahiptir:
+
+@read_id
+ACTGACTGACTG
++
+IIIIIIIIIIII
+
+1. satır: read kimliği  
+2. satır: DNA dizisi  
+3. satır: ayırıcı satır  
+4. satır: kalite skorları (Phred)
 
 ```bash
 # 1. Repoyu bilgisayarına indir
@@ -52,6 +68,10 @@ snakemake --cores 2
 | Read İstatistikleri | Python (analyze_reads.py) | `results/read_stats.csv` |
 | Görselleştirme | Python (visualize.py) | `results/qc_plots.png` |
 
+Snakemake pipeline akışını görselleştirmek için:
+
+snakemake --dag | dot -Tpng > workflow.png
+
 ## Pipeline Mimarisi
 ```
 barcode77.fastq (Ham Veri)
@@ -75,17 +95,17 @@ barcode77.fastq (Ham Veri)
 ## 📁 Dosya Yapısı
 ```
 longread-qc-pipeline/
-├── Snakefile              # Pipeline adımlarını tanımlar
-├── config.yaml            # Girdi dosyası ayarları
-├── environment.yml        # Conda ortam tanımı
-├── analyze_reads.py       # GC, uzunluk, kalite hesaplama scripti
-├── visualize.py           # Grafik üretim scripti
-├── .gitignore             # Git'e yüklenmeyecek dosyalar
+├── Snakefile              - Pipeline adımlarını tanımlar
+├── config.yaml            - Girdi dosyası ayarları
+├── environment.yml        - Conda ortam tanımı
+├── analyze_reads.py       - GC, uzunluk, kalite hesaplama scripti
+├── visualize.py           - Grafik üretim scripti
+├── .gitignore             - Git'e yüklenmeyecek dosyalar
 └── results/
-    ├── read_stats.csv          # Her read için hesaplanan değerler
-    ├── qc_plots.png            # Dağılım grafikleri (aşağıda açıklandı)
+    ├── read_stats.csv          - Her read için hesaplanan değerler
+    ├── qc_plots.png            - Dağılım grafikleri 
     └── nanoplot/
-        └── NanoPlot-report.html   # İnteraktif QC raporu
+        └── NanoPlot-report.html   - QC raporu
 ```
 
 ---
@@ -94,7 +114,7 @@ longread-qc-pipeline/
 
 - **Read Uzunluğu**: Her readın baz çifti (bp) cinsinden uzunluğu
 - **GC İçeriği**: G ve C bazlarının yüzdesi
-- **Ortalama Kalite**: Phred kalite skoru (Q20 = %99 doğruluk)
+- **Ortalama Kalite**: Phred kalite skoru (Q20)
 
 ---
 
@@ -136,4 +156,9 @@ Verinin genel kalitesi hizalama (alignment) işlemine geçmek için yeterlidir. 
 Sorularınız için her zaman ulaşabilirsiniz.
 
 Saygılarımla,
+
 Ceren Nizamoğlu
+
+Bu pipeline tekrar üretilebilir olacak şekilde tasarlanmıştır.
+
+Tüm bağımlılıklar `environment.yml` dosyasında tanımlanmıştır ve Conda kullanılarak tek komutla kurulabilir. Böylece farklı bilgisayarlarda aynı analiz ortamı oluşturulabilir.
