@@ -1,0 +1,6 @@
+barcode77.fastq
+*.fastq
+*.fastq.gz
+__pycache__/
+.snakemake/
+*.pyc
