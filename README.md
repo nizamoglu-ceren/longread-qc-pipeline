@@ -8,9 +8,9 @@ Bu pipeline her read için üç temel metrik hesaplar:
 
 | Metrik | Açıklama | 
 |--------|----------|
-| **Read Uzunluğu** | Okunan DNA parçasının baz çifti (bp) cinsinden uzunluğu 
-| **GC İçeriği (%)** | DNA dizisindeki G ve C bazlarının yüzdesi 
-| **Ortalama Kalite (Phred)** | Her bazın ne kadar güvenilir okunduğunun skoru. 
+| **Read Uzunluğu** | Okunan DNA parçasının baz çifti (bp) cinsinden uzunluğu |
+| **GC İçeriği (%)** | DNA dizisindeki G ve C bazlarının yüzdesi |
+| **Ortalama Kalite (Phred)** | Her bazın ne kadar güvenilir okunduğunun skoru |
 
 ## Gereksinimler
 
@@ -23,6 +23,7 @@ Pipeline, long-read dizileme teknolojilerinden (örneğin Oxford Nanopore) üret
 
 FASTQ dosyası dört satırlık kayıt yapısına sahiptir:
 
+```text
 @read_id
 ACTGACTGACTG
 +
@@ -72,17 +73,20 @@ snakemake --cores 2
 ```
 barcode77.fastq (Ham Veri)
         │
-        ├──► [1] NanoPlot ──────────► results/nanoplot/NanoPlot-report.html
-        │         (Otomatik QC raporu)
+        ├──► [1] NanoPlot
+        │         │
+        │         └──► results/nanoplot/NanoPlot-report.html
+        │               (Otomatik QC raporu)
         │
-        ├──► [2] analyze_reads.py ──► results/read_stats.csv
-        │         (GC, uzunluk,           (Her read için istatistik tablosu)
-        │          kalite hesaplama)
-        │                │
-        └────────────────►
-                         │
-                    [3] visualize.py ──► results/qc_plots.png
-                    (Grafik üretimi)      (Dağılım grafikleri)
+        ├──► [2] analyze_reads.py
+        │         │
+        │         └──► results/read_stats.csv
+        │               (GC, uzunluk ve kalite hesaplanan tablo)
+        │
+        └──► [3] visualize.py
+                  │
+                  └──► results/qc_plots.png
+                        (Dağılım grafikleri)
 ```
 
 **Snakemake** bu adımları otomatik olarak sıraya koyar. 
@@ -132,22 +136,25 @@ Ham veriyi (81.011 DNA okuması) bilgisayar ortamında otomatik olarak işleyen 
 
 **Sonuçlar**
 
-*Read Uzunluğu:* Okumaların yarısı 547 baz çiftinden uzun, bazı okumalar 686.000 baz çiftine kadar ulaşıyor. Bu, Nanopore teknolojisinin en büyük avantajı olan uzun okuma kapasitesini gösteriyor. Uzunluk dağılımı beklenen aralıkta ve normal görünüyor.
+Read Uzunluğu: Okumaların yarısı 547 baz çiftinden uzun, bazı okumalar 686.000 baz çiftine kadar ulaşıyor. Bu, Nanopore teknolojisinin en büyük avantajı olan uzun okuma kapasitesini gösteriyor. Uzunluk dağılımı beklenen aralıkta ve normal görünüyor.
 
-*GC İçeriği:* Ortalama %53.5 olarak hesaplandı. Bu değer normal kabul edilen %40–60 aralığında ve güzel bir çan eğrisi oluşturuyor. Örnekleme kalitesi açısından herhangi bir sorun gözlemlenmedi.
+GC İçeriği: Ortalama %53.5 olarak hesaplandı. Bu değer normal kabul edilen %40–60 aralığında ve güzel bir çan eğrisi oluşturuyor. Örnekleme kalitesi açısından herhangi bir sorun gözlemlenmedi.
 
-*Kalite Skorları:* Medyan kalite Q17.3 olarak ölçüldü. Okumaların %41.2'si yüksek kalite eşiği olan Q20'nin üzerinde. Kalite skoru dağılımında iki ayrı tepe görülmektedir — bu, cihazın bazı okumaları çok iyi, bazılarını ise daha düşük kalitede okuduğuna işaret ediyor.
+Kalite Skorları: Medyan kalite Q17.3 olarak ölçüldü. Okumaların %41.2'si yüksek kalite eşiği olan Q20'nin üzerinde. Kalite skoru dağılımında iki ayrı tepe görülmektedir — bu, cihazın bazı okumaları çok iyi, bazılarını ise daha düşük kalitede okuduğuna işaret ediyor.
 
 **Öneri:**
-Verinin genel kalitesi hizalama (alignment) işlemine geçmek için yeterlidir. Ancak daha temiz ve güvenilir sonuçlar için alignment öncesi şu filtrelemenin yapılmasını öneririm: Q20 altındaki okumaların ve 200 bp'den kısa okumaların veri setinden çıkarılması. Bu adım hizalama doğruluğunu önemli ölçüde artıracaktır. 
+Verinin genel kalitesi hizalama (alignment) işlemine geçmek için yeterlidir. Ancak daha temiz ve güvenilir sonuçlar için alignment öncesi şu filtrelemenin yapılmasını öneririm: Q20 altındaki okumaların ve 200 bp'den kısa okumaların veri setinden çıkarılması. Bu filtreleme adımı hizalama doğruluğunu artırır ve yanlış eşleşmeleri azaltabilir. 
 
 Sorularınız için her zaman ulaşabilirsiniz.
 
 Saygılarımla,
 
 Ceren Nizamoğlu
+
 ---
+
+## Reproducibility
 
 Bu pipeline tekrar üretilebilir olacak şekilde tasarlanmıştır.
 
-Tüm bağımlılıklar `environment.yml` dosyasında tanımlanmıştır ve Conda kullanılarak tek komutla kurulabilir. Böylece farklı bilgisayarlarda aynı analiz ortamı oluşturulabilir.
+Tüm yazılım bağımlılıkları `environment.yml` dosyasında tanımlanmıştır ve Conda kullanılarak tek komutla kurulabilir. Bu sayede farklı bilgisayarlarda aynı analiz ortamı oluşturulabilir ve sonuçlar tutarlı şekilde yeniden üretilebilir.
