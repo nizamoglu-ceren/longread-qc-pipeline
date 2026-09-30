@@ -200,33 +200,5 @@ intervention required. The pipeline runs from start to finish automatically.
 
 ---
 
-## Email to Professor Kılıç
-
-**Subject:** Barcode77 Nanopore Sequencing Data — Quality Control Report
-
-Dear Professor Kılıç,
-
-I have completed the quality control analysis of the barcode77 sequencing data you provided. 
-
-I built an automated analysis pipeline that processed the raw data (81,011 DNA reads). The pipeline calculated the length, GC base content, and quality score of each read and produced visual reports.
-
-**What the Results Mean:**
-
-Read Length: Half of the reads are longer than 547 base pairs, with some reads reaching up to 686,000 base pairs. This demonstrates the long-read capability of Nanopore technology. The length distribution is within the expected range and appears normal.
-
-GC Content: The average GC content was calculated as 53.5%, which falls within the normal range of 40–60% and forms a clean bell curve. No issues were observed in terms of sample quality.
-
-Quality Scores: The median quality score was measured as Q17.3. 41.2% of reads exceed the high-quality threshold of Q20. A bimodal distribution is observed in the quality scores — this indicates that the device read some fragments very accurately and others at lower quality.
-
-**Recommendation:**
-The overall quality of the data is sufficient to proceed to alignment. However, for cleaner and more reliable results, I recommend filtering out reads below Q20 and reads shorter than 200 bp before alignment. This step will improve alignment accuracy and reduce false mappings. Would you like me to perform this filtering step as well?
-
-Please feel free to reach out if you have any questions.
-
-Kind regards,
-
-Ceren Nizamoğlu
-
----
 
 
